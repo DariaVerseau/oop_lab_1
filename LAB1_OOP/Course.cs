@@ -3,15 +3,23 @@ namespace LAB1_OOP;
 public class Course
 {
     public Guid CourseId { get; init; } = Guid.NewGuid();
-    public string CourseNumber { get; set; }
+    public int CourseNumber { get; set; } 
      
-    public static List<Discipline> CourseDisciplineList { get; set; } = new List<Discipline>();
+    public List<Discipline> CourseDisciplineList { get; set; } = new List<Discipline>();
 
-    public Course(Guid courseId, string courseNumber, List<Discipline>? disciplines = null)
+    //метод добавления, удаления предмета по айди группы
+
+    public void AddDisciplineCourse(Course course)
     {
-        CourseId = courseId;     
-        CourseNumber = courseNumber;
-        CourseDisciplineList = disciplines ?? new List<Discipline>();
+        Console.WriteLine("Enter course number: ");
+        course.CourseNumber = int.Parse(Console.ReadLine());
+        Discipline discipline = new Discipline();
+        CourseDisciplineList.Add(discipline.AddDiscipline(discipline));
     }
-     
+
+    public void PrintCourse()
+    {
+        Console.WriteLine($"Course number:  {CourseNumber}");
+        CourseDisciplineList.ForEach(courseDiscipline => Console.WriteLine($"Discipline name: {courseDiscipline.DisciplineName}"));
+    }
 }

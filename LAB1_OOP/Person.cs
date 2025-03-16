@@ -2,7 +2,7 @@ namespace LAB1_OOP;
 
 public class Person
 {
-    public Guid Id { get; set; } 
+    public Guid Id { get; init; } = Guid.NewGuid();
     public string FirstName{ get; set; }
     public string LastName{ get; set; }
     public string? MiddleName { get; set; } = null;
@@ -10,15 +10,22 @@ public class Person
         
     public static List<Person> PersonList { get; }= new List<Person>();
 
-    public Person(string firstName, string lastName, string middleName,int age)
+    public virtual Person AddPerson(Person person)
     {
-        Id = Guid.NewGuid();
-        FirstName = firstName;     
-        LastName = lastName;       
-        MiddleName = middleName;   
-        Age = age;
+        Console.WriteLine("Enter first name:   ");
+        person.FirstName = Console.ReadLine();
+
+        Console.WriteLine("Enter last name:   ");
+        person.LastName = Console.ReadLine();
+
+        Console.WriteLine("Enter middle name: ");
+        person.MiddleName = Console.ReadLine();
+
+        Console.WriteLine("Enter age: ");
+        person.Age = int.Parse(Console.ReadLine());
+    
+        return person;
     }
-        
     public virtual void UpdatePerson(Guid id)
     {
         Person personToUpdate = PersonList.FirstOrDefault(p => p.Id == Id);
@@ -36,6 +43,7 @@ public class Person
 
     public virtual void PrintInfo()
     {
+        Console.WriteLine();
         Console.WriteLine($"Id: {Id}");
         Console.WriteLine($"First Name: {FirstName}");
         Console.WriteLine($"Last Name: {LastName}");

@@ -6,13 +6,8 @@ public class Lecturer : Person
     
     public List<Discipline> LecturerDiscipline { get; set; } = new List<Discipline>();
     
-    public static List<Lecturer> LecturerList { get; } = new List<Lecturer>();
-    
-    public Lecturer(string firstName, string lastName, string middleName,int age, string AcademicTitle, List<string> lecturerDisciplines) : base(firstName, lastName, middleName, age)
-    {
-        this.AcademicTitle = AcademicTitle;
-        this.LecturerDiscipline = LecturerDiscipline;
-    }
+    //вынести списки отдельно 
+    public List<Lecturer> LecturerList { get; set; } = new List<Lecturer>();
     
     public override void UpdatePerson(Guid lecturerId)
     {
@@ -25,10 +20,28 @@ public class Lecturer : Person
         }
     }
 
-    private void addLecturer(Lecturer lecturer)
+    public Lecturer addLecturer(Lecturer lecturer)
     {
+        Console.WriteLine("Enter information about Lecturer: ");
+        lecturer = (Lecturer)AddPerson(lecturer);
+    
+        Console.WriteLine("Enter academic title: ");
+        lecturer.AcademicTitle = Console.ReadLine();
+        
+        //добавление предметов в список дисциплин преподавателя        
+        Console.WriteLine("Enter number of lecturer disciplines: ");
+        int lecturerDisciplineNumber = int.Parse(Console.ReadLine());
+        for (int i = 0; i < lecturerDisciplineNumber; i++)
+        {
+            Discipline discipline = new Discipline();
+            discipline = discipline.AddDiscipline(discipline);
+            LecturerDiscipline.Add(discipline);
+        }
+        
         LecturerList.Add(lecturer);
         PersonList.Add(lecturer);
+
+        return lecturer;
     }
 
     private void removeLecturer(Guid lecturerId)

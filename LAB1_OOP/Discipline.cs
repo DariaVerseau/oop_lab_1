@@ -5,16 +5,25 @@ public class Discipline
     public Guid DisciplineId { get; init; } = Guid.NewGuid();
     public string DisciplineName{ get; set; }
     public string DisciplineDiscription{ get; set; }
-    public string Teacher{ get; set; } 
+    public Lecturer Teacher{ get; set; }
     
-    public static List<Discipline> DisciplineList { get; } = new List<Discipline>();
+    public List<Discipline> DisciplineList { get; set; } = new List<Discipline>();
 
-    private void AddDiscipline(Discipline discipline)
+    public Discipline AddDiscipline(Discipline discipline)
     {
+        //Add discipline for student course 
+        Console.WriteLine("Enter discipline name: ");
+        discipline.DisciplineName = Console.ReadLine();
+    
+        Console.WriteLine("Enter discription about discipline: ");
+        discipline.DisciplineDiscription = Console.ReadLine();
         DisciplineList.Add(discipline);
+        
+        return discipline;
+        
     }
 
-    private void UpdateDiscipline(Guid disciplineId)
+    public void UpdateDiscipline(Guid disciplineId)
     {
         Discipline disciplineToUpdate = DisciplineList.FirstOrDefault(d => d.DisciplineId == disciplineId);
         if (disciplineToUpdate != null)
@@ -25,16 +34,23 @@ public class Discipline
         }
     }
 
-    private void RemoveDiscipline(Guid disciplineId)
+    public void RemoveDiscipline(Guid disciplineId)
     {
         var discipline = DisciplineList.FirstOrDefault(d => d.DisciplineId == DisciplineId);
         if (discipline != null) DisciplineList.Remove(discipline);
     }
 
-    public Discipline(string disciplineName, string disciplineDiscription, string teacher)
+    //public Discipline(string disciplineName, string disciplineDiscription, Lecturer teacher)
+    //{
+       // DisciplineName = disciplineName;
+       // DisciplineDiscription = disciplineDiscription;
+       // Teacher = teacher;
+    //}
+
+    public void PrintDiscipline()
     {
-        DisciplineName = disciplineName;
-        DisciplineDiscription = disciplineDiscription;
-        Teacher = teacher;
+        Console.WriteLine($"Discipline Name: {DisciplineName}");
+        Console.WriteLine($"Discipline description: {DisciplineDiscription}");
+        Console.WriteLine($"Teacher: {Teacher}");
     }
-}
+} 
