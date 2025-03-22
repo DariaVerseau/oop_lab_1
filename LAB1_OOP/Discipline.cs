@@ -2,30 +2,57 @@ namespace LAB1_OOP;
 
 public class Discipline
 {
-    public Guid DisciplineId { get; init; } = Guid.NewGuid();
-    public string DisciplineName{ get; set; }
-    public string DisciplineDiscription{ get; set; }
-    public Lecturer Teacher{ get; set; }
-    
-    public List<Discipline> DisciplineList { get; set; } = new List<Discipline>();
+    public Guid DisciplineId { get; } = Guid.NewGuid();
+    public string? DisciplineName{ get; set; } 
+    public string? DisciplineDiscription{ get; set; }
+    public Lecturer? Teacher { get; set; } = new Lecturer();
 
-    public Discipline AddDiscipline(Discipline discipline)
+
+    public Discipline? InputDataDiscipline(Discipline? discipline)
     {
         //Add discipline for student course 
         Console.WriteLine("Enter discipline name: ");
-        discipline.DisciplineName = Console.ReadLine();
-    
-        Console.WriteLine("Enter discription about discipline: ");
-        discipline.DisciplineDiscription = Console.ReadLine();
-        DisciplineList.Add(discipline);
+        if (discipline != null)
+        {
+            discipline.DisciplineName = Console.ReadLine();
+
+            Console.WriteLine("Enter description about discipline: ");
+            discipline.DisciplineDiscription = Console.ReadLine();
+
+            //teacher info
+            Lecturer? lecturer = discipline.Teacher;
+            Teacher = Lecturer.AddLecturer(lecturer);
+        }
+        return discipline;
+    }
+
+    public Discipline AddDiscipline(Discipline discipline)
+    {
+        //add discipline to list   
+        GlobalData.disciplineList.Add(discipline);
         
         return discipline;
-        
+    }
+
+    public Discipline? SearchDiscipline(Guid disciplineId)
+    {
+        var disciplineToSearch = GlobalData.disciplineList.FirstOrDefault(d => d.DisciplineId == DisciplineId);
+        if (disciplineToSearch != null)
+        {
+            Console.WriteLine("Discipline has been found ");
+            return disciplineToSearch;
+        }
+
+        else
+        {
+            Console.WriteLine("Discipline not found");
+            return null;
+        }
     }
 
     public void UpdateDiscipline(Guid disciplineId)
     {
-        Discipline disciplineToUpdate = DisciplineList.FirstOrDefault(d => d.DisciplineId == disciplineId);
+        Discipline? disciplineToUpdate = SearchDiscipline(disciplineId);
         if (disciplineToUpdate != null)
         {
             disciplineToUpdate.DisciplineName = DisciplineName;
@@ -34,19 +61,17 @@ public class Discipline
         }
     }
 
-    public void RemoveDiscipline(Guid disciplineId)
+    public void UpdateInputDataDiscipline(Guid disciplineId)
     {
-        var discipline = DisciplineList.FirstOrDefault(d => d.DisciplineId == DisciplineId);
-        if (discipline != null) DisciplineList.Remove(discipline);
+        InputDataDiscipline(SearchDiscipline(disciplineId));
     }
 
-    //public Discipline(string disciplineName, string disciplineDiscription, Lecturer teacher)
-    //{
-       // DisciplineName = disciplineName;
-       // DisciplineDiscription = disciplineDiscription;
-       // Teacher = teacher;
-    //}
+    public void RemoveDiscipline(Discipline discipline)
+    {
+        GlobalData.disciplineList.Remove(discipline);
+    }
 
+ 
     public void PrintDiscipline()
     {
         Console.WriteLine($"Discipline Name: {DisciplineName}");

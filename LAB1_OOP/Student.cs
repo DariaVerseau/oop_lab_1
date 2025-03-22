@@ -4,47 +4,68 @@ public class Student : Person
 {
     public string GroupNumber { get; set; }
     public Course StudentCourse { get; set; } = new Course();
-    public List<Student> StudentList { get; set; } = new List<Student>();
     
-    public Student AddStudent(Student student)
+    public override dynamic? InputDataPerson(dynamic? student)
     {
         Console.WriteLine("Enter information about Student: ");
-        //Student personal data
-        student = (Student)AddPerson(student);
+        
+        //Student personal data 
+        base.InputDataPerson(student);
         
         Console.WriteLine("Enter group number: ");
         student.GroupNumber = Console.ReadLine();
+        
         //Course Info
         student.StudentCourse.AddDisciplineCourse(StudentCourse);
         
-        
-        //Console.WriteLine("Enter course number: ");
-        //student.StudentCourse.CourseNumber = int.Parse(Console.ReadLine());
-        
-        //Discipline discipline = new Discipline();
-        //student.StudentCourse.AddDisciplineCourse(discipline);
-        
-        StudentList.Add(student);
-        PersonList.Add(student);
         return student;
+    } 
+    
+
+    public void AddStudent(Student? student)
+    {
+        GlobalData.studentList.Add(student);
+        GlobalData.personList.Add(student);
     }
+    
+    public Student? SearchStudent(Guid studentId)
+    {
+        Student? studentToSearch = GlobalData.studentList.FirstOrDefault(s => s.Id == Id);
+        if (studentToSearch != null)
+        {
+            Console.WriteLine("Student has been found ");
+            return studentToSearch;
+        }
+
+        else
+        {
+            Console.WriteLine("Student not found");
+            return null;
+        }
+        
+    }
+
 
     public override void UpdatePerson(Guid studentId)
     {
-        Student studentToUpdate = StudentList.FirstOrDefault(s => s.Id == studentId);
-        if (studentToUpdate != null)
-        {
-            base.UpdatePerson(studentId);
-            studentToUpdate.GroupNumber = GroupNumber;
-            studentToUpdate.StudentCourse = StudentCourse;
-        }
-
+        Student? studentToUpdate = SearchStudent(studentId);
+        
+        base.UpdatePerson(studentId);
+        studentToUpdate.GroupNumber = GroupNumber;
+        studentToUpdate.StudentCourse = StudentCourse;
+            
     }
 
-    public override void RemovePerson(Guid id)
+    public void InputUpdateStudent(Guid studentId)
     {
-        Student student = StudentList.FirstOrDefault(s => s.Id == id);
-        if (student != null) StudentList.Remove(student);
+        Student? studentToUpdate = SearchStudent(studentId);
+        InputDataPerson(studentToUpdate);
+    }
+
+    public override void RemovePerson(dynamic? student)
+    {
+        base.RemovePerson(student);
+        GlobalData.studentList.Remove(student);
     }
 
     public override void PrintInfo()
@@ -54,10 +75,6 @@ public class Student : Person
         StudentCourse.PrintCourse();
         Console.WriteLine("\n");
     }
-
-    public void PrintInfoStudentList()
-    {
-        StudentList.ForEach(studentList => studentList.PrintInfo());
-    }
+    
     
 }

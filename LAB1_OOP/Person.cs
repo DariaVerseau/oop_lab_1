@@ -2,15 +2,14 @@ namespace LAB1_OOP;
 
 public class Person
 {
-    public Guid Id { get; init; } = Guid.NewGuid();
+    public Guid Id { get; } = Guid.NewGuid();
     public string FirstName{ get; set; }
     public string LastName{ get; set; }
     public string? MiddleName { get; set; } = null;
     public int Age { get; set; }
-        
-    public static List<Person> PersonList { get; }= new List<Person>();
+    
 
-    public virtual Person AddPerson(Person person)
+    public virtual dynamic? InputDataPerson(dynamic? person)
     {
         Console.WriteLine("Enter first name:   ");
         person.FirstName = Console.ReadLine();
@@ -23,22 +22,52 @@ public class Person
 
         Console.WriteLine("Enter age: ");
         person.Age = int.Parse(Console.ReadLine());
-    
+        
         return person;
     }
+    
+    public void AddPerson(Person? person)
+    {
+        GlobalData.personList.Add(person);
+    }
+    
+    
+    public Person? SearchPerson(Guid personId)
+    {
+        Person? personToSearch = GlobalData.personList.FirstOrDefault(p => p.Id == Id);
+        if (personToSearch != null)
+        {
+            Console.WriteLine("Person has been found ");
+            return personToSearch;
+        }
+
+        else
+        {
+            Console.WriteLine("Person not found");
+            return null;
+        }
+        
+    }
+    
     public virtual void UpdatePerson(Guid id)
     {
-        Person personToUpdate = PersonList.FirstOrDefault(p => p.Id == Id);
+        Person? personToUpdate = SearchPerson(id);
         personToUpdate.FirstName = FirstName;
         personToUpdate.LastName = LastName;
         personToUpdate.MiddleName = MiddleName;
         personToUpdate.Age = Age;
     }
-
-    public virtual void RemovePerson(Guid id)
+    
+    public void InputUpdatePerson(Guid id)
     {
-        Person person = PersonList.FirstOrDefault(p => p.Id == Id);
-        PersonList.Remove(person);
+        Person? personToUpdate = SearchPerson(id);
+        InputDataPerson(personToUpdate);
+    }
+
+    public virtual void RemovePerson(dynamic? person)
+    {
+        //Person person = GlobalData.personList.FirstOrDefault(p => p.Id == Id);
+        GlobalData.personList.Remove(person);
     }
 
     public virtual void PrintInfo()
