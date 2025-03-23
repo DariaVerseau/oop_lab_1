@@ -97,8 +97,7 @@ switch (input)
          case 3:
              Console.WriteLine("Enter student id for searching:");
              Guid studentIdToSearch = Guid.Parse(Console.ReadLine());
-             Student studentToSearch = new Student();
-             studentToSearch.SearchStudent(studentIdToSearch);
+             Student studentToSearch = Student.SearchStudent(studentIdToSearch);
              break;
          case 4:
              Console.WriteLine("Enter student id for delete:");

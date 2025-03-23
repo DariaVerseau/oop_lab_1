@@ -25,9 +25,9 @@ public class Student : Person
         GlobalData.studentList.Add(student);
     }
     
-    public Student? SearchStudent(Guid studentId)
+    public static Student? SearchStudent(Guid studentId)
     {
-        Student? studentToSearch = GlobalData.studentList.FirstOrDefault(s => s.Id == Id);
+        Student? studentToSearch = GlobalData.studentList.FirstOrDefault(s => s.Id == studentId);
         if (studentToSearch != null)
         {
             Console.WriteLine("Student has been found ");
