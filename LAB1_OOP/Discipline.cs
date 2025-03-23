@@ -20,23 +20,22 @@ public class Discipline
             discipline.DisciplineDiscription = Console.ReadLine();
 
             //teacher info
-            Lecturer? lecturer = discipline.Teacher;
-            Teacher = Lecturer.AddLecturer(lecturer);
+            Console.WriteLine("Enter information about teacher: ");
+            Teacher.InputDataPerson(Teacher);
         }
-        //return discipline;
     }
 
     public Discipline AddDiscipline(Discipline discipline)
     {
         //add discipline to list   
-        GlobalData.disciplineList.Add(discipline);
+        GlobalData.disciplines.Add(discipline);
         
         return discipline;
     }
 
     public Discipline? SearchDiscipline(Guid disciplineId)
     {
-        var disciplineToSearch = GlobalData.disciplineList.FirstOrDefault(d => d.DisciplineId == DisciplineId);
+        var disciplineToSearch = GlobalData.disciplines.FirstOrDefault(d => d.DisciplineId == DisciplineId);
         if (disciplineToSearch != null)
         {
             Console.WriteLine("Discipline has been found ");
@@ -50,25 +49,17 @@ public class Discipline
         }
     }
 
-    public void UpdateDiscipline(Guid disciplineId)
-    {
-        Discipline? disciplineToUpdate = SearchDiscipline(disciplineId);
-        if (disciplineToUpdate != null)
-        {
-            disciplineToUpdate.DisciplineName = DisciplineName;
-            disciplineToUpdate.DisciplineDiscription = DisciplineDiscription;
-            disciplineToUpdate.Teacher = Teacher;
-        }
-    }
+   
 
-    public void UpdateInputDataDiscipline(Guid disciplineId)
+    public void UpdateDiscipline(Guid disciplineId)
     {
         InputDataDiscipline(SearchDiscipline(disciplineId));
     }
 
-    public void RemoveDiscipline(Discipline discipline)
+    public void RemoveDiscipline(Guid disciplineId)
     {
-        GlobalData.disciplineList.Remove(discipline);
+        Discipline? disciplineToRemove = SearchDiscipline(disciplineId);
+        GlobalData.disciplines.Remove(disciplineToRemove);
     }
 
  

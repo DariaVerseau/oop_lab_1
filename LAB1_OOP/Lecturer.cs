@@ -43,7 +43,7 @@ public class Lecturer : Person
     }
     
 
-    public static Lecturer? AddLecturer(Lecturer? lecturer)
+    public  Lecturer? AddLecturer(Lecturer? lecturer)
     {
         GlobalData.lecturerList.Add(lecturer);
         return lecturer;
@@ -66,15 +66,17 @@ public class Lecturer : Person
         
     }
 
-    public void RemoveLecturer(Lecturer? lecturer)
+    public void RemoveLecturer(Guid lecturerId)
     {
-        GlobalData.lecturerList.Remove(lecturer);
+        Lecturer? lecturerToRemove = SearchLecturer(lecturerId);
+        GlobalData.lecturerList.Remove(lecturerToRemove);
     }
     
     public override void PrintInfo()
     {
         base.PrintInfo();
-        Console.WriteLine($"\nУченое звание:  {AcademicTitle}, \nСписок преподаваемых дисциплин: {LecturerDiscipline}");
+        Console.WriteLine($"\nУченое звание:  {AcademicTitle}, \nСписок преподаваемых дисциплин: ");
+        LecturerDiscipline.ForEach(ld => Console.WriteLine($"{ld.DisciplineName}"));
     }
      
 }

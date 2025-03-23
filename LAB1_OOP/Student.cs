@@ -48,9 +48,10 @@ public class Student : Person
         InputDataPerson(studentToUpdate); //обновление как student
     }
     
-    public void RemoveStudent(Student student)
+    public void RemoveStudent(Guid studentId)
     {
-        GlobalData.studentList.Remove(student);
+        Student? studentToRemove = SearchStudent(studentId);
+        GlobalData.studentList.Remove(studentToRemove);
     }
 
     public override void PrintInfo()

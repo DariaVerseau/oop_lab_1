@@ -3,8 +3,8 @@ namespace LAB1_OOP;
 public class Course
 {
     public Guid CourseId { get; } = Guid.NewGuid();
-    public int CourseNumber { get; set; } 
-    public List<Discipline?> CourseDisciplineList  = new List<Discipline?>();
+    public int CourseNumber { get; set; }
+    public List<Discipline?> CourseDisciplineList = new List<Discipline?>();
 
     //метод добавления, удаления предмета по айди группы
 
@@ -14,7 +14,7 @@ public class Course
         Console.WriteLine("Enter course number: ");
         course.CourseNumber = int.Parse(Console.ReadLine() ?? string.Empty);
         Console.WriteLine("Disiplines:");
-        GlobalData.disciplineList.ForEach(disciplineList => disciplineList.PrintDiscipline());
+        GlobalData.disciplines.ForEach(disciplineList => disciplineList.PrintDiscipline());
         
         Console.WriteLine("Enter discipline number to add: ");
         int disciplineNumber = int.Parse(Console.ReadLine() ?? string.Empty);
@@ -23,7 +23,7 @@ public class Course
             Console.WriteLine("Enter course discipline list: ");
             Console.WriteLine("Enter discipline name to add: ");
             string? disciplineName = Console.ReadLine() ?? string.Empty;
-            var discipline = GlobalData.disciplineList.FirstOrDefault(d => d.DisciplineName == disciplineName);
+            var discipline = GlobalData.disciplines.FirstOrDefault(d => d.DisciplineName == disciplineName);
         
             if (discipline != null)
             {
@@ -32,7 +32,6 @@ public class Course
             else
             {
                 Console.WriteLine("Discipline is not exist");
-                disciplineName = null; 
             }
         }
         
@@ -93,8 +92,9 @@ public class Course
         InputCourse(SearchCourse(courseId));
     }
     
-    public void RemoveCourse(Course? courseToRemove)
+    public void RemoveCourse(Guid courseId)
     {
+        Course courseToRemove = SearchCourse(courseId);
         GlobalData.courseList.Remove(courseToRemove);
     }
     
