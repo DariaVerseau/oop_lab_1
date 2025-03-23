@@ -9,12 +9,33 @@ public class Course
     //метод добавления, удаления предмета по айди группы
 
     
-    public Course? InputCourse(Course? course)
+    public void InputCourse(Course? course)
     {
         Console.WriteLine("Enter course number: ");
         course.CourseNumber = int.Parse(Console.ReadLine() ?? string.Empty);
+        Console.WriteLine("Disiplines:");
+        GlobalData.disciplineList.ForEach(disciplineList => disciplineList.PrintDiscipline());
         
-        return course;
+        Console.WriteLine("Enter discipline number to add: ");
+        int disciplineNumber = int.Parse(Console.ReadLine() ?? string.Empty);
+        for (int i = 0; i < disciplineNumber; i++)
+        {
+            Console.WriteLine("Enter course discipline list: ");
+            Console.WriteLine("Enter discipline name to add: ");
+            string? disciplineName = Console.ReadLine() ?? string.Empty;
+            var discipline = GlobalData.disciplineList.FirstOrDefault(d => d.DisciplineName == disciplineName);
+        
+            if (discipline != null)
+            {
+                Console.WriteLine("Discipline is exist");
+            }
+            else
+            {
+                Console.WriteLine("Discipline is not exist");
+                disciplineName = null; 
+            }
+        }
+        
     }
 
     public void AddCourse(Course? course)

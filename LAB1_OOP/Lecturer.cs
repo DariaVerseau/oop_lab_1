@@ -7,15 +7,17 @@ public class Lecturer : Person
     public List<Discipline> LecturerDiscipline = new List<Discipline>();
 
 
-    public override dynamic? InputDataPerson(dynamic? lecturer)
+    public override void InputDataPerson(Person lecturer)
     {
         Console.WriteLine("Enter information about Lecturer: ");
         
         //Lecturer personal data 
         base.InputDataPerson(lecturer);
+        
+        Lecturer l = (Lecturer)lecturer;
     
         Console.WriteLine("Enter academic title: ");
-        lecturer.AcademicTitle = Console.ReadLine();
+        l.AcademicTitle = Console.ReadLine();
         
         //добавление предметов в список дисциплин преподавателя        
         Console.WriteLine("Enter number of lecturer disciplines: ");
@@ -27,32 +29,23 @@ public class Lecturer : Person
             LecturerDiscipline.Add(discipline);
         }
         
-        return lecturer;
     }
 
-    public override void UpdatePerson(Guid lecturerId)
+    public void AddDiscipline(Discipline discipline)
     {
-        Lecturer? lecturerToUpdate = GlobalData.lecturerList.FirstOrDefault(l => l.Id == Id);
-        if (lecturerToUpdate != null)
-        {
-            base.UpdatePerson(lecturerId);
-            lecturerToUpdate.AcademicTitle = AcademicTitle;
-            lecturerToUpdate.LecturerDiscipline = LecturerDiscipline;
-        }
-        else Console.WriteLine("Person not found");
+        LecturerDiscipline.Add(discipline);
     }
 
-    public void InputUpdateLecturer(Guid lecturerId)
+    public void UpdateLecturer(Guid lecturerId)
     {
         Lecturer? lecturerToUpdate = SearchLecturer(lecturerId);
         InputDataPerson(lecturerToUpdate);
     }
+    
 
     public static Lecturer? AddLecturer(Lecturer? lecturer)
     {
         GlobalData.lecturerList.Add(lecturer);
-        GlobalData.personList.Add(lecturer);
-
         return lecturer;
     }
 
@@ -75,7 +68,6 @@ public class Lecturer : Person
 
     public void RemoveLecturer(Lecturer? lecturer)
     {
-        base.RemovePerson(lecturer);
         GlobalData.lecturerList.Remove(lecturer);
     }
     

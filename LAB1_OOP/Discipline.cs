@@ -8,7 +8,7 @@ public class Discipline
     public Lecturer? Teacher { get; set; } = new Lecturer();
 
 
-    public Discipline? InputDataDiscipline(Discipline? discipline)
+    public void InputDataDiscipline(Discipline? discipline)
     {
         //Add discipline for student course 
         Console.WriteLine("Enter discipline name: ");
@@ -23,7 +23,7 @@ public class Discipline
             Lecturer? lecturer = discipline.Teacher;
             Teacher = Lecturer.AddLecturer(lecturer);
         }
-        return discipline;
+        //return discipline;
     }
 
     public Discipline AddDiscipline(Discipline discipline)

@@ -5,27 +5,24 @@ public class Student : Person
     public string GroupNumber { get; set; }
     public Course StudentCourse { get; set; } = new Course();
     
-    public override dynamic? InputDataPerson(dynamic? student)
+    public override void InputDataPerson(Person student)
     {
         Console.WriteLine("Enter information about Student: ");
-        
-        //Student personal data 
         base.InputDataPerson(student);
         
+        Student s = (Student)student;
+        
         Console.WriteLine("Enter group number: ");
-        student.GroupNumber = Console.ReadLine();
+        s.GroupNumber = Console.ReadLine();
         
         //Course Info
-        student.StudentCourse.AddDisciplineCourse(StudentCourse);
+        s.StudentCourse.InputCourse(StudentCourse);
         
-        return student;
     } 
     
-
     public void AddStudent(Student? student)
     {
         GlobalData.studentList.Add(student);
-        GlobalData.personList.Add(student);
     }
     
     public Student? SearchStudent(Guid studentId)
@@ -44,27 +41,15 @@ public class Student : Person
         }
         
     }
-
-
-    public override void UpdatePerson(Guid studentId)
+    
+    public void UpdateStudent(Guid studentId)
     {
         Student? studentToUpdate = SearchStudent(studentId);
-        
-        base.UpdatePerson(studentId);
-        studentToUpdate.GroupNumber = GroupNumber;
-        studentToUpdate.StudentCourse = StudentCourse;
-            
+        InputDataPerson(studentToUpdate); //обновление как student
     }
-
-    public void InputUpdateStudent(Guid studentId)
+    
+    public void RemoveStudent(Student student)
     {
-        Student? studentToUpdate = SearchStudent(studentId);
-        InputDataPerson(studentToUpdate);
-    }
-
-    public override void RemovePerson(dynamic? student)
-    {
-        base.RemovePerson(student);
         GlobalData.studentList.Remove(student);
     }
 

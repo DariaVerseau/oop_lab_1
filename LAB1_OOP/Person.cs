@@ -9,7 +9,7 @@ public class Person
     public int Age { get; set; }
     
 
-    public virtual dynamic? InputDataPerson(dynamic? person)
+    public virtual void InputDataPerson(Person person)
     {
         Console.WriteLine("Enter first name:   ");
         person.FirstName = Console.ReadLine();
@@ -23,51 +23,6 @@ public class Person
         Console.WriteLine("Enter age: ");
         person.Age = int.Parse(Console.ReadLine());
         
-        return person;
-    }
-    
-    public void AddPerson(Person? person)
-    {
-        GlobalData.personList.Add(person);
-    }
-    
-    
-    public Person? SearchPerson(Guid personId)
-    {
-        Person? personToSearch = GlobalData.personList.FirstOrDefault(p => p.Id == Id);
-        if (personToSearch != null)
-        {
-            Console.WriteLine("Person has been found ");
-            return personToSearch;
-        }
-
-        else
-        {
-            Console.WriteLine("Person not found");
-            return null;
-        }
-        
-    }
-    
-    public virtual void UpdatePerson(Guid id)
-    {
-        Person? personToUpdate = SearchPerson(id);
-        personToUpdate.FirstName = FirstName;
-        personToUpdate.LastName = LastName;
-        personToUpdate.MiddleName = MiddleName;
-        personToUpdate.Age = Age;
-    }
-    
-    public void InputUpdatePerson(Guid id)
-    {
-        Person? personToUpdate = SearchPerson(id);
-        InputDataPerson(personToUpdate);
-    }
-
-    public virtual void RemovePerson(dynamic? person)
-    {
-        //Person person = GlobalData.personList.FirstOrDefault(p => p.Id == Id);
-        GlobalData.personList.Remove(person);
     }
 
     public virtual void PrintInfo()
